@@ -1,19 +1,19 @@
 import pytest
 from src.math_operations import subtract
 
-def test_subtract_positive_numbers():
-    assert subtract(10, 3) == 7
+@pytest.mark.parametrize("a, b, expected", [
+    (3, 2, 1),
+    (-1, -2, 1),
+    (0, 0, 0),
+    (2.5, 1.5, 1.0),
+    (-1, 2, -3),
+    (2000000, 1000000, 1000000),
+])
+def test_subtract(a, b, expected):
+    assert subtract(a, b) == expected
 
-def test_subtract_negative_numbers():
-    assert subtract(-5, -2) == -3
-
-def test_subtract_zero():
-    assert subtract(0, 5) == -5
-    assert subtract(5, 0) == 5
-
-def test_subtract_mixed_signs():
-    assert subtract(-3, 7) == -10
-    assert subtract(10, -5) == 15
-
-def test_subtract_large_numbers():
-    assert subtract(10**8, 10**7) == 9 * 10**7
+def test_subtract_type_error():
+    with pytest.raises(TypeError):
+        subtract("a", 2)
+    with pytest.raises(TypeError):
+        subtract(1, "b")
